@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Row, Col, List, Avatar } from "antd";
 import Axios from "axios";
 import SideVideo from './Sections/SideVideo';
+import Subscriber from './Sections/Subscribe';
 
 function VideoDetailPage(props) {
   const videoId = props.match.params.videoId;
@@ -22,7 +23,7 @@ function VideoDetailPage(props) {
     });
   }, []);
 
-  if (Video) {
+  if (Video.writer) {
     return (
       <Row>
         <Col lg={18} xs={24}>
@@ -37,17 +38,17 @@ function VideoDetailPage(props) {
             ></video>
 
             <List.Item
-            // actions={[
-            //   <LikeDislikes
-            //     video
-            //     videoId={videoId}
-            //     userId={localStorage.getItem("userId")}
-            //   />,
-            //   <Subscriber
-            //     userTo={Video.writer._id}
-            //     userFrom={localStorage.getItem("userId")}
-            //   />,
-            // ]}
+              actions={[
+                //   <LikeDislikes
+                //     video
+                //     videoId={videoId}
+                //     userId={localStorage.getItem("userId")}
+                //   />,
+                <Subscriber
+                  userTo={Video.writer._id}
+                  // userFrom={localStorage.getItem("userId")}
+                />,
+              ]}
             >
               <List.Item.Meta
                 avatar={<Avatar src={Video.writer && Video.writer.image} />}
