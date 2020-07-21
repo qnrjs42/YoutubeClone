@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Axios from 'axios'
-import Subscriber from '../../../../../../server/models/Subscriber';
 
 function Subscribe(props) {
     const [SubscribeNumber, setSubscribeNumber] = useState(0);
     const [Subscribed, setSubscribed] = useState(false);
+    
 
 
     useEffect(() => {
@@ -42,7 +42,7 @@ function Subscribe(props) {
             Axios.post('/api/subscribe/unSubscribe', subscribedVariable)
             .then(response => {
                 if(response.data.success) {
-                    setSubscribeNumber(Subscriber -1)
+                    setSubscribeNumber(SubscribeNumber - 1)
                     setSubscribed(!Subscribed)
                 } else {
                     alert('구독 취소 하는데 실패');
@@ -54,7 +54,7 @@ function Subscribe(props) {
             Axios.post("/api/subscribe/subscribe", subscribedVariable)
             .then((response) => {
                 if (response.data.success) {
-                    setSubscribeNumber(Subscriber + 1);
+                    setSubscribeNumber(SubscribeNumber + 1);
                     setSubscribed(!Subscribed);
                 } else {
                   alert("구독 하는데 실패");
