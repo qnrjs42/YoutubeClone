@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Axios from 'axios'
+import Subscriber from '../../../../../../server/models/Subscriber';
 
 function Subscribe(props) {
     const [SubscribeNumber, setSubscribeNumber] = useState(0);
@@ -30,6 +31,39 @@ function Subscribe(props) {
         })
     }, [])
 
+    const onSubscribe = () => {
+        let subscribedVariable = {
+            userTo: props.userTo,
+            userFrom: props.userFrom,
+        }
+        
+        // 이미 구독 중일 떄
+        if(Subscribed) {
+            Axios.post('/api/subscribe/unSubscribe', subscribedVariable)
+            .then(response => {
+                if(response.data.success) {
+                    setSubscribeNumber(Subscriber -1)
+                    setSubscribed(!Subscribed)
+                } else {
+                    alert('구독 취소 하는데 실패');
+                }
+            })
+
+        // 아직 구독 중이 아닐 때
+        } else {
+            Axios.post("/api/subscribe/subscribe", subscribedVariable)
+            .then((response) => {
+                if (response.data.success) {
+                    setSubscribeNumber(Subscriber + 1);
+                    setSubscribed(!Subscribed);
+                } else {
+                  alert("구독 하는데 실패");
+                }
+              }
+            );
+        }
+    }
+
 
     return (
         <div>
@@ -38,7 +72,7 @@ function Subscribe(props) {
                         color: 'white', padding: '10px 16px',
                         fontWeight: '500', fontSize: '1rem', textTransform: 'uppercase'
                 }}
-                onClick
+                onClick={onSubscribe}
             >
                 {SubscribeNumber} {Subscribed ? 'Subscribed' : 'Subscribe'}
 

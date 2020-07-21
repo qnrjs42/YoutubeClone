@@ -46,7 +46,7 @@ function VideoDetailPage(props) {
                 //   />,
                 <Subscriber
                   userTo={Video.writer._id}
-                  // userFrom={localStorage.getItem("userId")}
+                  userFrom={localStorage.getItem("userId")}
                 />,
               ]}
             >
