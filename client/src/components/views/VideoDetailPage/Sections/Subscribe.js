@@ -68,7 +68,7 @@ function Subscribe(props) {
     return (
         <div>
             <button
-                style={{ backgroundColor: `${Subscribe ? '#CC0000' : '#AAAAAA'}`, borderRadius: '4px',
+                style={{ backgroundColor: `${Subscribed ? '#AAAAAA' : '#CC0000'}`, borderRadius: '4px',
                         color: 'white', padding: '10px 16px',
                         fontWeight: '500', fontSize: '1rem', textTransform: 'uppercase'
                 }}
