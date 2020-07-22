@@ -9,6 +9,8 @@ import Comment from './Sections/Comment';
 function VideoDetailPage(props) {
   const videoId = props.match.params.videoId;
   const [Video, setVideo] = useState([]);
+  // const [Comments, setComments] = useState('');
+
   const videoVariable = { videoId: videoId };
 
   useEffect(() => {
