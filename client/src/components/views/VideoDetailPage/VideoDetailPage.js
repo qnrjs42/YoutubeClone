@@ -3,6 +3,8 @@ import { Row, Col, List, Avatar } from "antd";
 import Axios from "axios";
 import SideVideo from './Sections/SideVideo';
 import Subscriber from './Sections/Subscribe';
+import Subscribe from "./Sections/Subscribe";
+import Comment from './Sections/Comment';
 
 function VideoDetailPage(props) {
   const videoId = props.match.params.videoId;
@@ -24,6 +26,7 @@ function VideoDetailPage(props) {
   }, []);
 
   if (Video.writer) {
+    const subscribeButton = Video.writer._id !== localStorage.getItem('userId') && <Subscribe userTo={Video.writer._id} userFrom={localStorage.getItem("userId")} />
     return (
       <Row>
         <Col lg={18} xs={24}>
@@ -37,19 +40,7 @@ function VideoDetailPage(props) {
               controls
             ></video>
 
-            <List.Item
-              actions={[
-                //   <LikeDislikes
-                //     video
-                //     videoId={videoId}
-                //     userId={localStorage.getItem("userId")}
-                //   />,
-                <Subscriber
-                  userTo={Video.writer._id}
-                  userFrom={localStorage.getItem("userId")}
-                />,
-              ]}
-            >
+            <List.Item actions={[subscribeButton]}>
               <List.Item.Meta
                 avatar={<Avatar src={Video.writer && Video.writer.image} />}
                 title={<a href="https://ant.design">{Video.title}</a>}
@@ -58,11 +49,11 @@ function VideoDetailPage(props) {
               <div></div>
             </List.Item>
 
-            {/* <Comments
-                    CommentLists={CommentLists}
-                    postId={Video._id}
-                    refreshFunction={updateComment}
-                  /> */}
+            <Comment
+              // CommentLists={CommentLists}
+              // postId={Video._id}
+              // refreshFunction={updateComment}
+            />
           </div>
         </Col>
         <Col lg={6} xs={24}>
