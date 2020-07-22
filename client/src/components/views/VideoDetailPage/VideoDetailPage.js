@@ -9,23 +9,35 @@ import Comment from './Sections/Comment';
 function VideoDetailPage(props) {
   const videoId = props.match.params.videoId;
   const [Video, setVideo] = useState([]);
-  // const [Comments, setComments] = useState('');
+  const [Comments, setComments] = useState([]);
 
-  const videoVariable = { videoId: videoId };
+  const variable = { videoId: videoId };
 
   useEffect(() => {
-    Axios.post("/api/video/getVideoDetail", videoVariable).then((response) => {
+    Axios.post("/api/video/getVideoDetail", variable).then((response) => {
       if (response.data.success) {
-        console.log("axios.response : ", response);
-        console.log("axios.response.data : ", response.data);
-        console.log("axios.response.data.VideoDetail : ", response.data.videoDetail);
         setVideo(response.data.videoDetail);
 
       } else {
         alert("비디오 정보 가져오기 실패");
       }
+
+      Axios.post('/api/comment/getComments', variable)
+      .then(response => {
+        if(response.data.success) {
+          setComments(response.data.comments);
+
+          console.log("comments: ", response.data.comments);
+        } else {
+          alert('코멘트 정보 가져오기 실패')
+        }
+      })
     });
   }, []);
+
+  const refreshFunction = (newComment) => {
+    setComments(Comments.concat(newComment));
+  }
 
   if (Video.writer) {
     const subscribeButton = Video.writer._id !== localStorage.getItem('userId') && <Subscribe userTo={Video.writer._id} userFrom={localStorage.getItem("userId")} />
@@ -52,9 +64,9 @@ function VideoDetailPage(props) {
             </List.Item>
 
             <Comment
-              // CommentLists={CommentLists}
-              // postId={Video._id}
-              // refreshFunction={updateComment}
+              Comments={Comments}
+              postId={Video._id}
+              refreshFunction={refreshFunction}
             />
           </div>
         </Col>
